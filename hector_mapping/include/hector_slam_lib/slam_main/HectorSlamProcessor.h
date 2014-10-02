@@ -80,6 +80,7 @@ public:
         newPoseEstimateWorld = poseHintWorld;
     }
 
+    Eigen::Vector3f oldScanMatchPose = lastScanMatchPose;
     lastScanMatchPose = newPoseEstimateWorld;
 
     //std::cout << "\nt1:\n" << newPoseEstimateWorld << "\n";
@@ -88,10 +89,36 @@ public:
     //std::cout << "\n" << lastScanMatchPose << "\n";
     if(util::poseDifferenceLargerThan(newPoseEstimateWorld, lastMapUpdatePose, paramMinDistanceDiffForMapUpdate, paramMinAngleDiffForMapUpdate) || map_without_matching){
 
-      mapRep->updateByScan(dataContainer, newPoseEstimateWorld);
+      // TODO: Evaluating Map jumps 0.5m, 90 degree
+      if(util::poseDifferenceLargerThan(newPoseEstimateWorld, lastMapUpdatePose, 0.5, M_PI))
+      {
+        ROS_DEBUG_STREAM("HectorSlamProcessor::update: MAP JUMP: pose1: " << newPoseEstimateWorld);
+        ROS_DEBUG_STREAM("HectorSlamProcessor::update: MAP JUMP: pose2: " << lastMapUpdatePose);
 
-      mapRep->onMapUpdated();
-      lastMapUpdatePose = newPoseEstimateWorld;
+        float jump_distance = (newPoseEstimateWorld.head<2>() - lastMapUpdatePose.head<2>()).norm();
+        float jump_angle = newPoseEstimateWorld.z() - lastMapUpdatePose.z();
+        ROS_ERROR("HectorSlamProcessor::update: MAP JUMP: jumped distance: %f | jumped angle: %f", jump_distance, jump_angle);
+
+        if(jump_distance == INFINITY || jump_distance > 100000.0f)
+        {
+          mapRep->updateByScan(dataContainer, newPoseEstimateWorld);
+
+          mapRep->onMapUpdated();
+          lastMapUpdatePose = newPoseEstimateWorld;
+        }
+        else
+        {
+          lastScanMatchPose = oldScanMatchPose;
+          ROS_ERROR("HectorSlamProcessor::update: dismiss MAP JUMP");
+        }
+      }
+      else
+      {
+        mapRep->updateByScan(dataContainer, newPoseEstimateWorld);
+
+        mapRep->onMapUpdated();
+        lastMapUpdatePose = newPoseEstimateWorld;
+      }
     }
 
     if(drawInterface){
