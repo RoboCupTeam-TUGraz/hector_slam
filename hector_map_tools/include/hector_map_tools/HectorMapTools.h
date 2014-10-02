@@ -32,7 +32,7 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/MapMetaData.h>
 
-#include<Eigen/Core>
+#include<eigen3/Eigen/Core>
 
 class HectorMapTools{
 public:
