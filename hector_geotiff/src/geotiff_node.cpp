@@ -135,7 +135,7 @@ public:
     nav_msgs::GetMap srv_map;
     if (map_service_client_.call(srv_map))
     {
-      ROS_INFO("GeotiffNode: Map service called successfully");
+      ROS_DEBUG("GeotiffNode: Map service called successfully");
       const nav_msgs::OccupancyGrid& map (srv_map.response.map);
 
       std::string map_file_name = p_map_file_base_name_;
