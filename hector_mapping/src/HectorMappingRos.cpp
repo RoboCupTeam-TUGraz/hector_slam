@@ -373,7 +373,7 @@ void HectorMappingRos::sysMsgCallback(const std_msgs::String& string)
 bool HectorMappingRos::mapCallback(nav_msgs::GetMap::Request  &req,
                                    nav_msgs::GetMap::Response &res)
 {
-  ROS_INFO("HectorSM Map service called");
+  ROS_DEBUG("HectorSM Map service called");
   res = mapPubContainer[0].map_;
   return true;
 }
