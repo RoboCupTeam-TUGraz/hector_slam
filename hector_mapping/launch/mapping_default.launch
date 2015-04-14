@@ -36,6 +36,10 @@
     <param name="laser_z_min_value" value = "-1.0" />
     <param name="laser_z_max_value" value = "1.0" />
     
+    <!-- Map jump avoidance parameters -->
+    <param name="map_update_max_distance_thresh" value="0.5"/>
+    <param name="map_update_max_angle_thresh" value="1.5708" />
+    
     <!-- Advertising config --> 
     <param name="advertise_map_service" value="true"/>
     

@@ -90,7 +90,7 @@ public:
     if(util::poseDifferenceLargerThan(newPoseEstimateWorld, lastMapUpdatePose, paramMinDistanceDiffForMapUpdate, paramMinAngleDiffForMapUpdate) || map_without_matching){
 
       // TODO: Evaluating Map jumps 0.5m, 90 degree
-      if(util::poseDifferenceLargerThan(newPoseEstimateWorld, lastMapUpdatePose, 0.5, M_PI))
+      if(util::poseDifferenceLargerThan(newPoseEstimateWorld, lastMapUpdatePose, paramMaxDistanceDiffForMapUpdate, paramMaxAngleDiffForMapUpdate))
       {
         ROS_DEBUG_STREAM("HectorSlamProcessor::update: MAP JUMP: pose1: " << newPoseEstimateWorld);
         ROS_DEBUG_STREAM("HectorSlamProcessor::update: MAP JUMP: pose2: " << lastMapUpdatePose);
@@ -164,6 +164,8 @@ public:
   void setUpdateFactorOccupied(float occupied_factor) { mapRep->setUpdateFactorOccupied(occupied_factor); };
   void setMapUpdateMinDistDiff(float minDist) { paramMinDistanceDiffForMapUpdate = minDist; };
   void setMapUpdateMinAngleDiff(float angleChange) { paramMinAngleDiffForMapUpdate = angleChange; };
+  void setMapUpdateMaxDistDiff(float maxDist) { paramMaxDistanceDiffForMapUpdate = maxDist; };
+  void setMapUpdateMaxAngleDiff(float maxAngle) { paramMaxAngleDiffForMapUpdate = maxAngle; };
 
 protected:
 
@@ -175,6 +177,8 @@ protected:
 
   float paramMinDistanceDiffForMapUpdate;
   float paramMinAngleDiffForMapUpdate;
+  float paramMaxDistanceDiffForMapUpdate;
+  float paramMaxAngleDiffForMapUpdate;
 
   DrawInterface* drawInterface;
   HectorDebugInfoInterface* debugInterface;

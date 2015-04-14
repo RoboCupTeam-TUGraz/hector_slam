@@ -169,6 +169,8 @@ protected:
   double p_update_factor_occupied_;
   double p_map_update_distance_threshold_;
   double p_map_update_angle_threshold_;
+  double p_map_update_max_distance_threshold_;
+  double p_map_update_max_angle_threshold_;
 
   double p_map_resolution_;
   int p_map_size_;
