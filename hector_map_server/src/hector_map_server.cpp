@@ -76,7 +76,7 @@ public:
   bool mapServiceCallback(nav_msgs::GetMap::Request  &req,
                           nav_msgs::GetMap::Response &res )
   {
-    ROS_INFO("hector_map_server map service called");
+    ROS_DEBUG("hector_map_server map service called");
 
     if (!map_ptr_){
       ROS_INFO("map_server has no map yet, no map service available");

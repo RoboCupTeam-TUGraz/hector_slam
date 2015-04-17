@@ -74,6 +74,11 @@ HectorMappingRos::HectorMappingRos()
   private_nh_.param("map_update_distance_thresh", p_map_update_distance_threshold_, 0.4);
   private_nh_.param("map_update_angle_thresh", p_map_update_angle_threshold_, 0.9);
 
+  private_nh_.param("map_update_max_distance_thresh", p_map_update_max_distance_threshold_, 0.5);
+  private_nh_.param("map_update_max_angle_thresh", p_map_update_max_angle_threshold_, M_PI);
+
+
+
   private_nh_.param("scan_topic", p_scan_topic_, std::string("scan"));
   private_nh_.param("sys_msg_topic", p_sys_msg_topic_, std::string("syscommand"));
   private_nh_.param("pose_update_topic", p_pose_update_topic_, std::string("poseupdate"));
@@ -128,6 +133,8 @@ HectorMappingRos::HectorMappingRos()
   slamProcessor->setUpdateFactorOccupied(p_update_factor_occupied_);
   slamProcessor->setMapUpdateMinDistDiff(p_map_update_distance_threshold_);
   slamProcessor->setMapUpdateMinAngleDiff(p_map_update_angle_threshold_);
+  slamProcessor->setMapUpdateMaxDistDiff(p_map_update_max_distance_threshold_);
+  slamProcessor->setMapUpdateMaxAngleDiff(p_map_update_max_angle_threshold_);
 
   int mapLevels = slamProcessor->getMapLevels();
   mapLevels = 1;
@@ -366,7 +373,7 @@ void HectorMappingRos::sysMsgCallback(const std_msgs::String& string)
 bool HectorMappingRos::mapCallback(nav_msgs::GetMap::Request  &req,
                                    nav_msgs::GetMap::Response &res)
 {
-  ROS_INFO("HectorSM Map service called");
+  ROS_DEBUG("HectorSM Map service called");
   res = mapPubContainer[0].map_;
   return true;
 }
