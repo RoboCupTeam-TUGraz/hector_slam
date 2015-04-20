@@ -249,7 +249,7 @@ public:
 
     ros::Duration elapsed_time (ros::Time::now() - start_time);
 
-    ROS_INFO("GeoTiff created in %f seconds", elapsed_time.toSec());
+    ROS_DEBUG("GeoTiff created in %f seconds", elapsed_time.toSec());
   }
 
   void timerSaveGeotiffCallback(const ros::TimerEvent& e)
