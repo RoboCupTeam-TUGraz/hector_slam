@@ -103,8 +103,18 @@ void TrajectoryMapWriter::draw(MapWriterInterface *interface)
       pointVec[i] = Eigen::Vector2f(pose.pose.position.x, pose.pose.position.y);
     }
 
-    if (size > 0){
+//    if (size > 0){
+//      //Eigen::Vector3f startVec(pose_vector[0].x,pose_vector[0].y,pose_vector[0].z);
+//      Eigen::Vector3f startVec(pointVec[0].x(),pointVec[0].y(),0.0f);
+//      interface->drawPath(startVec, pointVec);
+//    }
+      // TODO Write geotiff ignore map jump quickFix:
+    if (size > 1){
       //Eigen::Vector3f startVec(pose_vector[0].x,pose_vector[0].y,pose_vector[0].z);
+      ROS_ERROR_STREAM("TrajectoryMapWriter::draw: pointVec size before erasing first element: " << pointVec.size());
+      pointVec.erase(pointVec.begin());
+      ROS_ERROR_STREAM("TrajectoryMapWriter::draw: pointVec size before erasing first element: " << pointVec.size());
+
       Eigen::Vector3f startVec(pointVec[0].x(),pointVec[0].y(),0.0f);
       interface->drawPath(startVec, pointVec);
     }
