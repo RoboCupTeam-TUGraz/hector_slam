@@ -76,15 +76,9 @@ static bool poseDifferenceLargerThan(const Eigen::Vector3f& pose1, const Eigen::
     return true;
   }
 
-  float angleDiff = (pose1.z() - pose2.z());
+  float angleDiff = normalize_angle(pose1.z() - pose2.z());
 
-  if (angleDiff > M_PI) {
-    angleDiff -= M_PI * 2.0f;
-  } else if (angleDiff < -M_PI) {
-    angleDiff += M_PI * 2.0f;
-  }
-
-  if (abs(angleDiff) > angleDiffThresh){
+  if (fabs(angleDiff) > angleDiffThresh){
     return true;
   }
   return false;
